@@ -1,0 +1,25 @@
+{
+  "name": "typecodes",
+  "version": "1.0.0",
+  "description": "Basically the closest type evaluation system for the basic types the JavaScript language supports.",
+  "main": "typecodes.js",
+  "scripts": {
+    "test": "node node_modules/jasmine/bin/jasmine.js",
+    "testem": "testem"
+  },
+  "keywords": [
+    "type"
+  ],
+  "author": "Christopher W Buteau <cbuteau@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "amdefine": "1.0.0",
+    "jasmine": "2.4.1",
+    "jasmine-core": "2.4.1",
+    "karma": "0.13.22",
+    "karma-chrome-launcher": "1.0.1",
+    "karma-jasmine": "1.0.2",
+    "karma-requirejs": "1.0.0",
+    "requirejs": "2.2.0"
+  }
+}
