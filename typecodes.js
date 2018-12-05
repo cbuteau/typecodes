@@ -12,12 +12,61 @@ var TYPECODES = {
   NULL: 6,
   DATE: 7,
   ARRAY: 8,
-  UNMAPPED: 9
+  UNMAPPED: 9,
+  REGEX: 10
 };
 
 Object.freeze(TYPECODES);
 
-// TODO add the folloing ...regex typedarray types...
+// TODO add the folloing ... typedarray types...
+
+function TypeCodeWrapper(value) {
+  Number.call(val);
+}
+
+TypeCodeWrapper.prototype = new Number();
+
+
+TypeCodeWrapper.prototype.toString = function() {
+  var result = 'unmapped';
+  switch (this) {
+    case TYPECODES.ARRAY:
+      result = 'array';
+      break;
+    case TYPECODES.BOOLEAN:
+      result = 'boolean';
+    case TYPECODES.DATE:
+      result = 'date';
+      break;
+    case TYPECODES.FUNCTION:
+      result = 'function';
+      break;
+    case TYPECODES.NULL:
+      result = 'null';
+      break;
+    case TYPECODES.NUMBER:
+      result = 'number';
+      break;
+    case TYPECODES.OBJECT:
+      result = 'object';
+      break;
+    case TYPECODES.REGEX:
+      result = 'regex';
+      break;
+    case TYPECODES.STRING:
+      result = 'string';
+      break;
+    case TYPECODES.UNDEFINED:
+      result = 'undefined';
+      break;
+    case TYPECODES.UNMAPPED:
+    default:
+      result = 'unmapped';
+      break;
+  }
+
+  return result;
+}
 
 function getTypeCode(value) {
   // Undefined
@@ -52,10 +101,15 @@ function getTypeCode(value) {
   if (value.map && value.indexOf && value.push && value.slice) {
     return TYPECODES.ARRAY;
   }
+
+  if (value.test && value.exec) {
+    return TYPECODES.REGEX;
+  }
   // OBJECT
   if (value.isPrototypeOf && value.hasOwnProperty && value.toString) {
     return TYPECODES.OBJECT;
   }
+
 
   return TYPECODES.UNMAPPED;
 }

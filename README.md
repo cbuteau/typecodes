@@ -28,14 +28,25 @@ CODES = {
   UNMAPPED: 9
 };
 
-getTypeCode(value);
+get(value);
 // var code = tc.getTypeCode('this data');
 
-isTypeOf(value, typecode);
+is(value, typecode);
 // if (tc.isTypeOF(13, tc.CODES.NUMBER))
+
+validateFunction(value, paramCount)
+// if (tc.validateFunction(callback, 2)) {
+//   callback(this, 'success');
+// }
 ```
 
 # TODO
 
 Get IStanbul coverage working
 https://github.com/testem/testem/tree/master/examples/coverage_istanbul
+
+# Status
+
+12/4/2018
+
+Cleanuped tests simplified interface.

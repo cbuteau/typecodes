@@ -52,4 +52,11 @@ describe('Test is each type...', function() {
 
     expect(tc.is(obj, tc.CODES.ARRAY)).toBe(true);
   });
+
+  it('regex', function() {
+    var obj = /\d+/;
+
+    expect(tc.is(obj, tc.CODES.REGEX)).toBe(true);
+  });
+
 });
