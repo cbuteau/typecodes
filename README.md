@@ -50,3 +50,7 @@ https://github.com/testem/testem/tree/master/examples/coverage_istanbul
 12/4/2018
 
 Cleanuped tests simplified interface.
+
+later
+we tried to derive from number so toString would return what the typecode is..
+but failed and exposed anothe method not quite tested.

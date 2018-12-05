@@ -21,13 +21,112 @@ Object.freeze(TYPECODES);
 // TODO add the folloing ... typedarray types...
 
 function TypeCodeWrapper(value) {
-  Number.call(val);
+  this.value = value;
+  Number.call(this, value);
+  this.toString = function() {
+    var result = 'unmapped';
+    switch (value) {
+      case TYPECODES.ARRAY:
+        result = 'array';
+        break;
+      case TYPECODES.BOOLEAN:
+        result = 'boolean';
+      case TYPECODES.DATE:
+        result = 'date';
+        break;
+      case TYPECODES.FUNCTION:
+        result = 'function';
+        break;
+      case TYPECODES.NULL:
+        result = 'null';
+        break;
+      case TYPECODES.NUMBER:
+        result = 'number';
+        break;
+      case TYPECODES.OBJECT:
+        result = 'object';
+        break;
+      case TYPECODES.REGEX:
+        result = 'regex';
+        break;
+      case TYPECODES.STRING:
+        result = 'string';
+        break;
+      case TYPECODES.UNDEFINED:
+        result = 'undefined';
+        break;
+      case TYPECODES.UNMAPPED:
+      default:
+        result = 'unmapped';
+        break;
+    }
+
+    return result;
+  }
 }
 
-TypeCodeWrapper.prototype = new Number();
+TypeCodeWrapper.prototype = Object.create(Number.prototype);
+
+TypeCodeWrapper.prototype = {
+  [Symbol.toPrimitive]: function() {
+    return this.value;
+  }
+};
 
 
-TypeCodeWrapper.prototype.toString = function() {
+// TypeCodeWrapper.prototype = {
+//   toString: function() {
+//     var result = 'unmapped';
+//     switch (this) {
+//       case TYPECODES.ARRAY:
+//         result = 'array';
+//         break;
+//       case TYPECODES.BOOLEAN:
+//         result = 'boolean';
+//       case TYPECODES.DATE:
+//         result = 'date';
+//         break;
+//       case TYPECODES.FUNCTION:
+//         result = 'function';
+//         break;
+//       case TYPECODES.NULL:
+//         result = 'null';
+//         break;
+//       case TYPECODES.NUMBER:
+//         result = 'number';
+//         break;
+//       case TYPECODES.OBJECT:
+//         result = 'object';
+//         break;
+//       case TYPECODES.REGEX:
+//         result = 'regex';
+//         break;
+//       case TYPECODES.STRING:
+//         result = 'string';
+//         break;
+//       case TYPECODES.UNDEFINED:
+//         result = 'undefined';
+//         break;
+//       case TYPECODES.UNMAPPED:
+//       default:
+//         result = 'unmapped';
+//         break;
+//     }
+//
+//     return result;
+//   },
+//   valueOf: function() {
+//      return this.value;
+//   }
+// };
+
+// Object.defineProperty(TypeCodeWrapper.prototype, 'constructor', {
+//     value: TypeCodeWrapper,
+//     enumerable: false, // so that it does not appear in 'for in' loop
+//     writable: true });
+
+
+function debugStringForTypeCode(typecode) {
   var result = 'unmapped';
   switch (this) {
     case TYPECODES.ARRAY:
@@ -69,8 +168,11 @@ TypeCodeWrapper.prototype.toString = function() {
 }
 
 function getTypeCode(value) {
+  var result;
   // Undefined
   if (value === undefined) {
+    //result = TYPECODES.UNDEFINED;
+    //result.toString = debugStringForTypeCode;
     return TYPECODES.UNDEFINED;
   }
   // Null
@@ -133,10 +235,9 @@ var exposed = {
   get: getTypeCode,
   is: isTypeCode,
   isNotThere: isNotThere,
-  validateFunction: validateFunction
+  validateFunction: validateFunction,
+  codeToString: debugStringForTypeCode
 };
-
-// TODO make this section simpler...
 
 (function() {
   // Export for NodeJs
