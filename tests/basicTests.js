@@ -10,13 +10,13 @@ describe('A basic set of tests', function() {
   it('get TypeCode', function() {
     var obj = {};
 
-    var code = tc.getTypeCode(obj);
+    var code = tc.get(obj);
     expect(code).toBe(tc.CODES.OBJECT);
   });
 
   it ('is Type', function() {
     var value = {};
-    expect(tc.isTypeCode(value, tc.CODES.OBJECT)).toBe(true);
+    expect(tc.is(value, tc.CODES.OBJECT)).toBe(true);
   });
 
   it ('is Func 1', function() {

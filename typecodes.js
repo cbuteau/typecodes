@@ -69,10 +69,16 @@ function validateFunction(func, paramCount) {
   return (computed === TYPECODES.FUNCTION) && (func.length === paramCount);
 }
 
+function isNotThere(value) {
+  var code = getTypeCode(value);
+  return code === TYPECODES.UNDEFINED || code === TYPECODES.NULL;
+}
+
 var exposed = {
   CODES: TYPECODES,
-  getTypeCode: getTypeCode,
-  isTypeCode: isTypeCode,
+  get: getTypeCode,
+  is: isTypeCode,
+  isNotThere: isNotThere,
   validateFunction: validateFunction
 };
 
