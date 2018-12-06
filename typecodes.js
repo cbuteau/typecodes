@@ -236,7 +236,7 @@ var exposed = {
   is: isTypeCode,
   isNotThere: isNotThere,
   validateFunction: validateFunction,
-  codeToString: debugStringForTypeCode
+  str: debugStringForTypeCode
 };
 
 (function() {
