@@ -54,3 +54,7 @@ Cleanuped tests simplified interface.
 later
 we tried to derive from number so toString would return what the typecode is..
 but failed and exposed anothe method not quite tested.
+
+12/28/2018
+
+tried instanceof then debugger would not load scripts...

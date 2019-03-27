@@ -5,8 +5,7 @@
   "main": "typecodes.js",
   "scripts": {
     "test": "node node_modules/jasmine/bin/jasmine.js",
-    "dtest": "node --inspect-brk node_modules/jasmine/bin/jasmine.js",
-    "testem": "testem"
+    "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
   },
   "keywords": [
     "type"
