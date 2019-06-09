@@ -22,7 +22,7 @@ jobs:
           command: npm install
       - run:
           name: run test
-          command: npm run test.circle
+          command: npm run test.ci
       - save_cache:
           key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
