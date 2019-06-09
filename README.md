@@ -10,6 +10,20 @@ Get running as library and testing as a library first.
 
 Get tests running in 4 browsers...then travis it then publish it...
 
+# Badges
+
+### Circle CI Build
+
+[![CircleCI](https://circleci.com/gh/cbuteau/typecodes.svg?style=svg)](https://circleci.com/gh/cbuteau/typecodes)
+
+### npm Version
+
+[![npm version](http://img.shields.io/npm/v/typecodes.svg?style=flat)](https://npmjs.org/package/typecodes "View this project on npm")
+
+
+### npm big badge
+
+[![NPM](https://nodei.co/npm/typecodes.png)](https://nodei.co/npm/typecodes/)
 
 
 # Interface
@@ -40,10 +54,6 @@ validateFunction(value, paramCount)
 // }
 ```
 
-# TODO
-
-Get IStanbul coverage working
-https://github.com/testem/testem/tree/master/examples/coverage_istanbul
 
 # Status
 
@@ -63,3 +73,8 @@ tried instanceof then debugger would not load scripts...
 
 Cleaned up a little of karma running but it is still not running the tests in karma.
 the its are not being fired..
+
+## 6/8/2019
+
+migrated tests to jasmine Karma
+got building on circle ci.
