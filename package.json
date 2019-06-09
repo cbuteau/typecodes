@@ -4,7 +4,8 @@
   "description": "Basically the closest type evaluation system for the basic types the JavaScript language supports.",
   "main": "typecodes.js",
   "scripts": {
-    "test": "node node_modules/jasmine/bin/jasmine.js",
+    "test": ".\\node_modules\\.bin\\karma start",
+    "test.ci": ".\\node_modules\\.bin\\karma start --single-run",
     "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
   },
   "keywords": [
@@ -14,12 +15,17 @@
   "license": "MIT",
   "devDependencies": {
     "amdefine": "1.0.0",
-    "jasmine": "2.4.1",
+    "jasmine": "3.4.0",
     "jasmine-core": "2.4.1",
-    "karma": "0.13.22",
+    "karma": "4.1.0",
     "karma-chrome-launcher": "1.0.1",
+    "karma-cli": "2.0.0",
+    "karma-firefox-launcher": "1.1.0",
     "karma-jasmine": "1.0.2",
     "karma-requirejs": "1.0.0",
     "requirejs": "2.2.0"
+  },
+  "dependencies": {
+    "karma-jasmine-html-reporter": "1.4.2"
   }
 }

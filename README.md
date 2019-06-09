@@ -58,3 +58,8 @@ but failed and exposed anothe method not quite tested.
 12/28/2018
 
 tried instanceof then debugger would not load scripts...
+
+3/30/2019
+
+Cleaned up a little of karma running but it is still not running the tests in karma.
+the its are not being fired..

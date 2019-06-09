@@ -1,7 +1,7 @@
-if (typeof require === 'function')
-{
-  var tc = require('../typecodes');
-}
+// if (typeof require === 'function')
+// {
+//   var tc = require('../typecodes');
+// }
 
 describe('Test each type...', function() {
   it('object', function() {

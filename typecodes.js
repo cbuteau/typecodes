@@ -263,11 +263,13 @@ var exposed = {
   str: debugStringForTypeCode
 };
 
-if (typeof module !== undefined && typeof module.exports !== undefined) {
-  module.exports = exposed;
-} else {
+if (window && window.performance) {
   window.tc = exposed;
+} else {
+  module.exports = exposed;
 }
+
+
 
 
 /*
