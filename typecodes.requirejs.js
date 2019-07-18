@@ -20,7 +20,7 @@ define('Something/TypeCodes', [], function() {
 
   function debugStringForTypeCode(typecode) {
     var result = 'unmapped';
-    switch (this) {
+    switch (typecode) {
       case TYPECODES.ARRAY:
         result = 'array';
         break;
@@ -128,7 +128,7 @@ define('Something/TypeCodes', [], function() {
       return TYPECODES.OBJECT;
     }
 
-
+    /* istanbul ignore next */
     return TYPECODES.UNMAPPED;
   }
 

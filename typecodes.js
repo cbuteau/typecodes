@@ -21,7 +21,7 @@ Object.freeze(TYPECODES);
 
 function debugStringForTypeCode(typecode) {
   var result = 'unmapped';
-  switch (this) {
+  switch (typecode) {
     case TYPECODES.ARRAY:
       result = 'array';
       break;
@@ -129,7 +129,7 @@ function getTypeCode(value) {
     return TYPECODES.OBJECT;
   }
 
-
+  /* istanbul ignore next */
   return TYPECODES.UNMAPPED;
 }
 

@@ -14,6 +14,14 @@ describe('Test is each type...', function() {
     expect(tc.is(obj, tc.CODES.NUMBER)).toBe(true);
   });
 
+  it('boolean', function() {
+    var boolTrue = true;
+    var boolFalse = false;
+
+    expect(tc.is(boolTrue, tc.CODES.BOOLEAN)).toBe(true);
+    expect(tc.is(boolFalse, tc.CODES.BOOLEAN)).toBe(true);
+  });
+
   it('undefined', function() {
     var obj;
 
