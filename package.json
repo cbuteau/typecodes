@@ -6,6 +6,7 @@
   "scripts": {
     "test": ".\\node_modules\\.bin\\karma start",
     "test.ci": ".\\node_modules\\.bin\\karma start --single-run",
+    "minify": "node .\\node_modules\\uglify-js\\bin\\uglifyjs -c -o ./typecodes.min.js typecodes.js",
     "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
   },
   "keywords": [
@@ -15,15 +16,18 @@
   "license": "MIT",
   "devDependencies": {
     "amdefine": "1.0.0",
+    "istanbul": "^0.4.5",
     "jasmine": "3.4.0",
     "jasmine-core": "2.4.1",
     "karma": "4.1.0",
     "karma-chrome-launcher": "1.0.1",
     "karma-cli": "2.0.0",
+    "karma-coveralls": "^2.1.0",
     "karma-firefox-launcher": "1.1.0",
     "karma-jasmine": "1.0.2",
     "karma-requirejs": "1.0.0",
-    "requirejs": "2.2.0"
+    "requirejs": "2.2.0",
+    "uglify-js": "^3.6.0"
   },
   "dependencies": {
     "karma-coverage": "1.1.2",

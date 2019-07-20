@@ -27,6 +27,7 @@ function debugStringForTypeCode(typecode) {
       break;
     case TYPECODES.BOOLEAN:
       result = 'boolean';
+      break;
     case TYPECODES.DATE:
       result = 'date';
       break;
