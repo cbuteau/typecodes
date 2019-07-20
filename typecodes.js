@@ -54,7 +54,9 @@ function debugStringForTypeCode(typecode) {
       break;
     case TYPECODES.UNMAPPED:
     default:
+      /* istanbul ignore next */
       result = 'unmapped';
+      /* istanbul ignore next */
       break;
   }
 
@@ -98,27 +100,12 @@ function getTypeCode(value) {
     if (value.copyWithin && value.entries && value.find) {
       // typedarray
       // we migth have to swicth to instanceof here.
-      if (value instanceof Array) {
-        console.log('Vanilla Array');
-      } else if (value instanceof TypedArray) {
-        console.log('typed array');
-      }
+      // if (value instanceof Array) {
+      //   console.log('Vanilla Array');
+      // } else if (value instanceof TypedArray) {
+      //   console.log('typed array');
+      // }
     }
-      // we can't get bytes per element at all from the value.
-
-
-    //   switch (value.BYTES_PER_ELEMENT) {
-    //     case 1:
-    //       break;
-    //     case 4:
-    //       break;
-    //     case 8:
-    //       break;
-    //     default:
-    //       console.error('Not found');
-    //       break;
-    //   }
-    // }
     return TYPECODES.ARRAY;
   }
 
