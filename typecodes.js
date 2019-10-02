@@ -97,15 +97,15 @@ function getTypeCode(value) {
   }
   // ARRAY
   if (value.map && value.indexOf && value.push && value.slice) {
-    if (value.copyWithin && value.entries && value.find) {
-      // typedarray
-      // we migth have to swicth to instanceof here.
-      if (value instanceof Array) {
-        //console.log('Vanilla Array');
-      } else if (value instanceof TypedArray) {
-        //console.log('typed array');
-      }
-    }
+    // if (value.copyWithin && value.entries && value.find) {
+    //   // typedarray
+    //   // we migth have to swicth to instanceof here.
+    //   if (value instanceof Array) {
+    //     //console.log('Vanilla Array');
+    //   } else if (value instanceof TypedArray) {
+    //     //console.log('typed array');
+    //   }
+    // }
     return TYPECODES.ARRAY;
   }
 
