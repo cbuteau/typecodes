@@ -98,9 +98,9 @@ function getTypeCode(value) {
       // typedarray
       // we migth have to swicth to instanceof here.
       if (value instanceof Array) {
-        console.log('Vanilla Array');
+        //console.log('Vanilla Array');
       } else if (value instanceof TypedArray) {
-        console.log('typed array');
+        //console.log('typed array');
       }
     }
       // we can't get bytes per element at all from the value.
@@ -158,6 +158,10 @@ var exposed = {
 
 if (window && window.performance) {
   window.tc = exposed;
+} else if (typeof define === 'function' && define.amd) {
+  define(function() {
+    return exposed;
+  });
 } else {
   module.exports = exposed;
 }
