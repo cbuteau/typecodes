@@ -144,12 +144,14 @@ var exposed = {
   str: debugStringForTypeCode
 };
 
-if (window && window.performance) {
-  window.tc = exposed;
-} else if (typeof define === 'function' && define.amd) {
+// trying diffeernt for requirejs detection.
+
+if (typeof define === 'function' && define.amd) {
   define(function() {
     return exposed;
   });
-} else {
+} else if (typeof exports === 'object') {
   module.exports = exposed;
+} else {
+  window.tc = exposed;
 }
