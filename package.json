@@ -1,6 +1,6 @@
 {
   "name": "typecodes",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Basically the closest type evaluation system for the basic types the JavaScript language supports.",
   "main": "typecodes.js",
   "scripts": {

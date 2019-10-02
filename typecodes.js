@@ -153,20 +153,3 @@ if (window && window.performance) {
 } else {
   module.exports = exposed;
 }
-
-
-
-
-/*
-(function() {
-  // Export for NodeJs
-
-
-  if (typeof module !== undefined && typeof module.exports !== undefined) {
-    module.exports = exposed;
-  } else {
-    window.tc = exposed;
-  }
-
-})();
-*/
