@@ -7,7 +7,7 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
       NODE_ENV: false
-      COVERALLS_REPO_TOKEN: xltKyf1rcQaPtyE2gAUFlaBYk509z20DC
+      COVERALLS_REPO_TOKEN: SXQgaSpE7vyhJNyaYu6zmZMGfejRQGuX1
     steps:
       - checkout
       - run:

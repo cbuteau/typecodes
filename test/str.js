@@ -15,6 +15,18 @@ describe('Test debug strings...', function() {
     expect(tc.str(code)).toBe('number');
   });
 
+  it('boolean', function() {
+    var boolTrue = true;
+    var boolFalse = false;
+
+    var codeTrue = tc.get(boolTrue);
+    var codeFalse = tc.get(boolTrue);
+
+    expect(tc.str(codeTrue)).toBe('boolean');
+    expect(tc.str(codeFalse)).toBe('boolean');
+  });
+
+
   it('undefined', function() {
     var obj;
 
