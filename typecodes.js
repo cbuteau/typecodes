@@ -135,13 +135,58 @@ function isNotThere(value) {
   return code === TYPECODES.UNDEFINED || code === TYPECODES.NULL;
 }
 
+function isFloat(value) {
+  return value % 1 !== 0;
+}
+
+function actualCompare(valueOne, valueTwo, typeCode, options) {
+  switch (typeCode) {
+    case TYPECODES.UNDEFINED:
+    case TYPECODES.NULL:
+      return true;
+      break;
+    case TYPECODES.BOOLEAN:
+    case TYPECODES.STRING:
+    case TYPECODES.FUNCTION:
+    case TYPECODES.REGEX:
+    case TYPECODES.DATE:
+      //date has builtin compare mechanism.
+      return (valueOne === valueTwo);
+      break;
+    case TYPECODES.NUMBER:
+      if (isFloat(valueOne) && isFloat(valueTwo)) {
+        return compareFloats(valueOne, valueTwo, options);
+      } else {
+        return (valueOne === valueTwo);
+      }
+      break;
+    case TYPECODES.ARRAY:
+      return compareArray(valueOne, valueTwo, options);
+      break;
+    case TYPECODES.OBJECT:
+      return compareObject(valueOne, valueTwo, options);
+      break;
+  }
+}
+
+function compare(valueOne, valueTwo, options) {
+  var codeOne = getTypeCode(valueOne);
+  var codeTwo = getTypeCode(valueTwo);
+  if (codeOne === codeTwo) {
+    return actualCompare(valueOne, valueTwo, codeOne, options);
+  } else {
+    return false;
+  }
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
   is: isTypeCode,
   isNotThere: isNotThere,
   validateFunction: validateFunction,
-  str: debugStringForTypeCode
+  str: debugStringForTypeCode,
+  compare: compare
 };
 
 // trying diffeernt for requirejs detection.
