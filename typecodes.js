@@ -18,6 +18,7 @@ var TYPECODES = {
 
 Object.freeze(TYPECODES);
 
+var DEFAULT_EPSILON = 0.001;
 
 function debugStringForTypeCode(typecode) {
   var result = 'unmapped';
@@ -139,6 +140,37 @@ function isFloat(value) {
   return value % 1 !== 0;
 }
 
+function compareFloats(floatOne, floatTwo, options) {
+   return (Math.abs(floatOne - floatTwo) < options.epsilon);
+}
+
+function compareArray(arrayOne, arrayTwo) {
+  var test;
+  for (var i = 0; i < arrayOne.length; i++) {
+    test = compareObject(arrayOne[i], arrayTwo[i]);
+    if (!test) {
+      break;
+    }
+  }
+  return test;
+}
+
+function compareObject(objectOne, objectTwo, options) {
+  var propKeys = Object.keys(objectOne);
+  var test;
+  for (var i = 0; i < propKeys.length; i++) {
+    var propKey = propKeys[i];
+    var prop = objectOne[propKey];
+    var prop2 = objectTwo[propKey];
+    test = compare(prop, prop2, options);
+    if (!test) {
+      break;
+    }
+  }
+
+  return test;
+}
+
 function actualCompare(valueOne, valueTwo, typeCode, options) {
   switch (typeCode) {
     case TYPECODES.UNDEFINED:
@@ -170,6 +202,11 @@ function actualCompare(valueOne, valueTwo, typeCode, options) {
 }
 
 function compare(valueOne, valueTwo, options) {
+  if (!options) {
+    options = {
+      epsilon: DEFAULT_EPSILON
+    };
+  }
   var codeOne = getTypeCode(valueOne);
   var codeTwo = getTypeCode(valueTwo);
   if (codeOne === codeTwo) {
@@ -186,6 +223,7 @@ var exposed = {
   isNotThere: isNotThere,
   validateFunction: validateFunction,
   str: debugStringForTypeCode,
+  isFloat: isFloat,
   compare: compare
 };
 
