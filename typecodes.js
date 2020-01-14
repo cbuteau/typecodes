@@ -216,6 +216,10 @@ function compare(valueOne, valueTwo, options) {
   }
 }
 
+function exposedIsFloat(value) {
+  return getTypeCode(value) === TYPECODES.NUMBER && isFloat(value);
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -223,7 +227,7 @@ var exposed = {
   isNotThere: isNotThere,
   validateFunction: validateFunction,
   str: debugStringForTypeCode,
-  isFloat: isFloat,
+  isFloat: exposedIsFloat,
   compare: compare
 };
 
