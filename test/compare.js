@@ -63,4 +63,34 @@ describe('Compare tests', function() {
     expect(tc.compare(testObjOne, testObjTwo)).toBe(true);
   });
 
+
+  it ('Object depth', function() {
+    var testObjOne = {
+      one: true,
+      two: 3.14,
+      three: 'A dog',
+      array: [0,1,2,3],
+      anotherObj: {
+        params: {
+          one: 'a',
+          two: 'b'
+        }
+      }
+    };
+
+    var testObjTwo = {
+      one: true,
+      two: 3.14,
+      three: 'A dog',
+      array: [0,1,2,3],
+      anotherObj: {
+        params: {
+          one: 'a',
+          two: 'b'
+        }
+      }
+    };
+    expect(tc.compare(testObjOne, testObjTwo)).toBe(true);
+  });
+
 });

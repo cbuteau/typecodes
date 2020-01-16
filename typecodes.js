@@ -147,7 +147,7 @@ function compareFloats(floatOne, floatTwo, options) {
 function compareArray(arrayOne, arrayTwo) {
   var test;
   for (var i = 0; i < arrayOne.length; i++) {
-    test = compareObject(arrayOne[i], arrayTwo[i]);
+    test = compare(arrayOne[i], arrayTwo[i]);
     if (!test) {
       break;
     }
