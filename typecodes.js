@@ -145,7 +145,7 @@ function compareFloats(floatOne, floatTwo, options) {
 }
 
 function compareArray(arrayOne, arrayTwo) {
-  var test;
+  var test = false;
   for (var i = 0; i < arrayOne.length; i++) {
     test = compare(arrayOne[i], arrayTwo[i]);
     if (!test) {
@@ -157,7 +157,11 @@ function compareArray(arrayOne, arrayTwo) {
 
 function compareObject(objectOne, objectTwo, options) {
   var propKeys = Object.keys(objectOne);
-  var test;
+  var propKeysTwo = Object.keys(objectTwo);
+  if (propKeys.length !== propKeysTwo.length) {
+    return false;
+  }
+  var test = false;
   for (var i = 0; i < propKeys.length; i++) {
     var propKey = propKeys[i];
     var prop = objectOne[propKey];
@@ -172,36 +176,38 @@ function compareObject(objectOne, objectTwo, options) {
 }
 
 function actualCompare(valueOne, valueTwo, typeCode, options) {
+  var result = false;
   switch (typeCode) {
     case TYPECODES.UNDEFINED:
     case TYPECODES.NULL:
-      return true;
+      result = true;
       break;
     case TYPECODES.BOOLEAN:
     case TYPECODES.STRING:
     case TYPECODES.FUNCTION:
-      return (valueOne === valueTwo);
+      result = (valueOne === valueTwo);
       break;
     case TYPECODES.DATE:
-      return (valueOne.getTime() === valueTwo.getTime());
+      result = (valueOne.getTime() === valueTwo.getTime());
       break;
     case TYPECODES.REGEX:
-      return (valueOne.toString() === valueTwo.toString());
+      result = (valueOne.toString() === valueTwo.toString());
       break;
     case TYPECODES.NUMBER:
       if (isFloat(valueOne) && isFloat(valueTwo)) {
-        return compareFloats(valueOne, valueTwo, options);
+        result = compareFloats(valueOne, valueTwo, options);
       } else {
-        return (valueOne === valueTwo);
+        result = (valueOne === valueTwo);
       }
       break;
     case TYPECODES.ARRAY:
-      return compareArray(valueOne, valueTwo, options);
+      result = compareArray(valueOne, valueTwo, options);
       break;
     case TYPECODES.OBJECT:
-      return compareObject(valueOne, valueTwo, options);
+      result = compareObject(valueOne, valueTwo, options);
       break;
   }
+  return result;
 }
 
 function compare(valueOne, valueTwo, options) {
