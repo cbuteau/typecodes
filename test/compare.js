@@ -65,6 +65,10 @@ describe('Compare tests', function() {
 
 
   it ('Object depth', function() {
+    var regexNum =  /\d+/;
+    var regexNumTwo =  /\d+/;
+
+
     var testObjOne = {
       one: true,
       two: 3.14,
@@ -73,11 +77,12 @@ describe('Compare tests', function() {
       anotherObj: {
         params: {
           one: 'a',
-          two: 'b'
-        }
+          two: 'b',
+          berfday: new Date('12/11/1971'),
+        },
+        numreg: regexNum
       }
     };
-
     var testObjTwo = {
       one: true,
       two: 3.14,
@@ -86,11 +91,164 @@ describe('Compare tests', function() {
       anotherObj: {
         params: {
           one: 'a',
-          two: 'b'
-        }
+          two: 'b',
+          berfday: new Date('12/11/1971'),
+        },
+        numreg: regexNumTwo
       }
     };
     expect(tc.compare(testObjOne, testObjTwo)).toBe(true);
+  });
+
+  it ('Array of objects', function() {
+    var arrayOne = [
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      }
+    ];
+
+    var arrayTwo = [
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      },
+      {
+        one: true,
+        two: 3.14,
+        three: 'A dog',
+        array: [0,1,2,3],
+        anotherObj: {
+          params: {
+            one: 'a',
+            two: 'b',
+            berfday: new Date('12/11/1971'),
+          },
+          numreg: /b+/
+        }
+      }
+    ];
+
+    expect(tc.compare(arrayOne, arrayTwo)).toBe(true);
+
   });
 
 });

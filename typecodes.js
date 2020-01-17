@@ -180,10 +180,13 @@ function actualCompare(valueOne, valueTwo, typeCode, options) {
     case TYPECODES.BOOLEAN:
     case TYPECODES.STRING:
     case TYPECODES.FUNCTION:
-    case TYPECODES.REGEX:
-    case TYPECODES.DATE:
-      //date has builtin compare mechanism.
       return (valueOne === valueTwo);
+      break;
+    case TYPECODES.DATE:
+      return (valueOne.getTime() === valueTwo.getTime());
+      break;
+    case TYPECODES.REGEX:
+      return (valueOne.toString() === valueTwo.toString());
       break;
     case TYPECODES.NUMBER:
       if (isFloat(valueOne) && isFloat(valueTwo)) {
