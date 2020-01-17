@@ -56,6 +56,9 @@ validateFunction(value, paramCount)
 // if (tc.validateFunction(callback, 2)) {
 //   callback(this, 'success');
 // }
+compare(objectOne, objectTWo, options)
+
+isFloat(value)
 ```
 
 
