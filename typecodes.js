@@ -229,6 +229,61 @@ function exposedIsFloat(value) {
   return getTypeCode(value) === TYPECODES.NUMBER && isFloat(value);
 }
 
+function isAllValueTypes(obj) {
+  var propKeys = Object.keys(obj);
+  for (var i = 0; i < propKeys.length; i++) {
+    var prop = obj[propKeys[i]];
+    var propCode = getTypeCode(prop);
+    if (propCode === TYPECODES.ARRAY || propCode === TYPECODES.OBJECT) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function addUnique(array, item) {
+  if (array.indexOf(item) === -1) {
+    array.push(item);
+  }
+}
+
+function buildCombinedPropList(objOne, objTwo) {
+  var keysOne = Object.keys(objOne);
+  var keysTwo = Object.keys(objTwo);
+  var result = [];
+  for (var i = 0; i <keysOne.length; i++ ) {
+    addUnique(result, keysOne[i]);
+  }
+  for (var j = 0; j < keysTwo.length; j++ ) {
+    addUnique(result, keysTwo[j]);
+  }
+
+  return result;
+}
+
+function deepAssign(objOne, objTwo) {
+  if (isNotThere(objOne)) {
+    return objTwo;
+  }
+  if (isNotThere(objTwo)) {
+    return objOne;
+  }
+  var isOneValues = isAllValueTypes(objOne);
+  var isTwoValues = isAllValueTypes(objTwo);
+  if (isOneValues && isTwoValues) {
+    return Object.assign(objOne, objTwo);
+  } else {
+    // recurse
+    var resultObj = {};
+    var combined = buildCombinedPropList(objOne, objTwo);
+    for (var i = 0; i < combined.length; i++) {
+      var current = combined[i];
+      resultObj[current] = deepAssign(objOne[current], objTwo[current]);
+    }
+    return resultObj;
+  }
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -237,7 +292,8 @@ var exposed = {
   validateFunction: validateFunction,
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
-  compare: compare
+  compare: compare,
+  deepAssign: deepAssign
 };
 
 // trying diffeernt for requirejs detection.
