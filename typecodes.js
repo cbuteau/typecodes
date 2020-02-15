@@ -261,6 +261,59 @@ function buildCombinedPropList(objOne, objTwo) {
   return result;
 }
 
+function buildPropList(obj) {
+  var keys = Object.keys(obj);
+  var result = [];
+  for (var i = 0; i < keys.length; i++ ) {
+    addUnique(result, keys[i]);
+  }
+
+  return result;
+}
+
+function buildCombinedPropMap(objOne, objTwo) {
+  var keysOne = Object.keys(objOne);
+  var keysTwo = Object.keys(objTwo);
+  var result = {};
+  for (var i = 0; i <keysOne.length; i++ ) {
+    var keyone = keysOne[i];
+    result[keyone] = getTypeCode(objOne[keyone]);
+  }
+  for (var j = 0; j < keysTwo.length; j++ ) {
+    var keytwo = keysTwo[j];
+    result[keytwo] = getTypeCode(objOne[keytwo]);
+  }
+
+  return result;
+}
+
+function buildPropMap(obj) {
+  var keys = Object.keys(obj);
+  var result = {};
+  for (var i = 0; i < keys.length; i++ ) {
+    var cur = keys[i];
+    result[cur] = getTypeCode(obj[cur]);
+  }
+
+  return result;
+}
+
+function buildEvaluation(objOne, objTwo) {
+  var result = {};
+
+  result.isNotOne = isNotThere(objOne);
+  result.isNotTwo = isNotThere(objTwo);
+
+  if (result.isNotOne && !result.isNotTwo) {
+    result.props = buildPropMap(objTwo);
+  } else if (!result.isNotOne && result.isNotTwo) {
+    result.props = buildPropMap(objOne);
+  } else {
+    result.props = buildCombinedPropMap(objOne, objTwo);
+  }
+
+}
+
 function deepAssign(objOne, objTwo) {
   if (isNotThere(objOne)) {
     return objTwo;
