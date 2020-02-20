@@ -256,19 +256,19 @@ function addUnique(array, item) {
   }
 }
 
-// function buildCombinedPropList(objOne, objTwo) {
-//   var keysOne = Object.keys(objOne);
-//   var keysTwo = Object.keys(objTwo);
-//   var result = [];
-//   for (var i = 0; i <keysOne.length; i++ ) {
-//     addUnique(result, keysOne[i]);
-//   }
-//   for (var j = 0; j < keysTwo.length; j++ ) {
-//     addUnique(result, keysTwo[j]);
-//   }
-//
-//   return result;
-// }
+function buildCombinedPropList(objOne, objTwo) {
+  var keysOne = Object.keys(objOne);
+  var keysTwo = Object.keys(objTwo);
+  var result = [];
+  for (var i = 0; i <keysOne.length; i++ ) {
+    addUnique(result, keysOne[i]);
+  }
+  for (var j = 0; j < keysTwo.length; j++ ) {
+    addUnique(result, keysTwo[j]);
+  }
+
+  return result;
+}
 //
 // function buildPropList(obj) {
 //   var keys = Object.keys(obj);
@@ -280,21 +280,21 @@ function addUnique(array, item) {
 //   return result;
 // }
 //
-function buildCombinedPropMap(objOne, objTwo) {
-  var keysOne = Object.keys(objOne);
-  var keysTwo = Object.keys(objTwo);
-  var result = {};
-  for (var i = 0; i <keysOne.length; i++ ) {
-    var keyone = keysOne[i];
-    result[keyone] = getTypeCode(objOne[keyone]);
-  }
-  for (var j = 0; j < keysTwo.length; j++ ) {
-    var keytwo = keysTwo[j];
-    result[keytwo] = getTypeCode(objOne[keytwo]);
-  }
-
-  return result;
-}
+// function buildCombinedPropMap(objOne, objTwo) {
+//   var keysOne = Object.keys(objOne);
+//   var keysTwo = Object.keys(objTwo);
+//   var result = {};
+//   for (var i = 0; i <keysOne.length; i++ ) {
+//     var keyone = keysOne[i];
+//     result[keyone] = getTypeCode(objOne[keyone]);
+//   }
+//   for (var j = 0; j < keysTwo.length; j++ ) {
+//     var keytwo = keysTwo[j];
+//     result[keytwo] = getTypeCode(objOne[keytwo]);
+//   }
+//
+//   return result;
+// }
 //
 // function buildPropMap(obj) {
 //   var keys = Object.keys(obj);
