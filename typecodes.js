@@ -241,6 +241,15 @@ function isAllValueTypes(obj) {
   return true;
 }
 
+function isValueType(obj) {
+  var code = getTypeCode(obj);
+  if (code === TYPECODES.ARRAY || code === TYPECODES.OBJECT) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function addUnique(array, item) {
   if (array.indexOf(item) === -1) {
     array.push(item);
@@ -321,6 +330,15 @@ function deepAssign(objOne, objTwo) {
   if (isNotThere(objTwo)) {
     return objOne;
   }
+
+  var isValueOne = isValueType(objOne);
+  var isValueTwo = isValueType(objTwo);
+
+  if (isValueOne && isValueTwo) {
+    // return prop it will copy.
+    return objTwo;
+  }
+  
   var isOneValues = isAllValueTypes(objOne);
   var isTwoValues = isAllValueTypes(objTwo);
   if (isOneValues && isTwoValues) {
