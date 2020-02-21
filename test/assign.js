@@ -45,6 +45,27 @@ var mergedOptions = {
   }
 };
 
+var mergedOptionsTwo = {
+  inlineAMDS: [
+    'path/to/module',
+    'path/to/utilty',
+    'path/to/singleton',
+    'path/to/sexymodule'
+  ],
+  layout: {
+    visibleProps: [
+      'display',
+      'index',
+      'tags'
+    ],
+    tagManager: 'dynamic'
+  },
+  performance: {
+    usePooling: false,
+    useDocumentFragment: true
+  }
+};
+
 describe('Deep Assign tests', function() {
 
   describe('Some Basic tests', function() {
@@ -79,6 +100,23 @@ describe('Deep Assign tests', function() {
         }
       });
       expect(result).toEqual(mergedOptions);
+    });
+
+
+    it('ANother merger', function() {
+      var result = tc.deepAssign(defaultOptions, {
+        inlineAMDS: [
+          'path/to/module',
+          'path/to/utilty',
+          'path/to/singleton',
+          'path/to/sexymodule'
+        ],
+        layout: {
+          tagManager: 'dynamic'
+        }
+      });
+      expect(result).toEqual(mergedOptionsTwo);
+
     });
 
   });
