@@ -1,3 +1,4 @@
+// whole thing strict mode
 'use strict';
 
 //if (typeof define !== 'function') { var define = require('amdefine'); }
@@ -269,59 +270,26 @@ function buildCombinedPropList(objOne, objTwo) {
 
   return result;
 }
-//
-// function buildPropList(obj) {
-//   var keys = Object.keys(obj);
-//   var result = [];
-//   for (var i = 0; i < keys.length; i++ ) {
-//     addUnique(result, keys[i]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildCombinedPropMap(objOne, objTwo) {
-//   var keysOne = Object.keys(objOne);
-//   var keysTwo = Object.keys(objTwo);
-//   var result = {};
-//   for (var i = 0; i <keysOne.length; i++ ) {
-//     var keyone = keysOne[i];
-//     result[keyone] = getTypeCode(objOne[keyone]);
-//   }
-//   for (var j = 0; j < keysTwo.length; j++ ) {
-//     var keytwo = keysTwo[j];
-//     result[keytwo] = getTypeCode(objOne[keytwo]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildPropMap(obj) {
-//   var keys = Object.keys(obj);
-//   var result = {};
-//   for (var i = 0; i < keys.length; i++ ) {
-//     var cur = keys[i];
-//     result[cur] = getTypeCode(obj[cur]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildEvaluation(objOne, objTwo) {
-//   var result = {};
-//
-//   result.isNotOne = isNotThere(objOne);
-//   result.isNotTwo = isNotThere(objTwo);
-//
-//   if (result.isNotOne && !result.isNotTwo) {
-//     result.props = buildPropMap(objTwo);
-//   } else if (!result.isNotOne && result.isNotTwo) {
-//     result.props = buildPropMap(objOne);
-//   } else {
-//     result.props = buildCombinedPropMap(objOne, objTwo);
-//   }
-//
-// }
+
+function mergeArrays(arrayOne, arrayTwo) {
+  var combined = [];
+  var current;
+  for (var i = 0; i < arrayOne.length; i++) {
+    current = arrayOne[i];
+    if (combined.indexOf(current) === -1) {
+      combined.push(current);
+    }
+  }
+  for (var j = 0; j < arrayTwo.length; j++) {
+    var current = arrayTwo[j];
+    if (combined.indexOf(current) === -1) {
+      combined.push(current);
+    }
+  }
+
+  return combined;
+}
+
 
 function deepAssign(objOne, objTwo) {
   if (isNotThere(objOne)) {
@@ -339,9 +307,14 @@ function deepAssign(objOne, objTwo) {
     return objTwo;
   }
 
+
+
   var isOneValues = isAllValueTypes(objOne);
   var isTwoValues = isAllValueTypes(objTwo);
   if (isOneValues && isTwoValues) {
+    if (isTypeCode(objOne, TYPECODES.ARRAY) && isTypeCode(objTwo, TYPECODES.ARRAY)) {
+      return mergeArrays(objOne, objTwo);
+    }
     return Object.assign(objOne, objTwo);
   } else {
     // recurse
@@ -355,6 +328,48 @@ function deepAssign(objOne, objTwo) {
   }
 }
 
+function FunctionMap(prop) {
+  this.paramCount = prop.length;
+}
+
+function CallbackMap(interfaceObj) {
+  this.interfaceObj = interfaceObj;
+  this.map = {};
+  this.build();
+}
+
+CallbackMap.prototype = {
+  build: function() {
+    var keys = Object.keys(this.interfaceObj);
+    for (var i = 0; i < keys.length; i++) {
+      var prop = keys[i];
+      var propVal = this.interfaceObj[prop];
+      if (isTypeCode(propVal, TYPECODES.FUNCTION)) {
+        this.map[prop] = new FunctionMap(propVal);
+      }
+    }
+  },
+  isValid: function(objectToTest) {
+    var callbacks = Object.keys(this.map);
+    var validcount = 0;
+    for (var i = 0; i < callbacks.length; i++) {
+      var cbName = callbacks[i];
+      var propVal = objectToTest[cbName];
+      var funcMap = this.map[cbName];
+      if (isTypeCode(propVal, TYPECODES.FUNCTION) && propVal.length === funcMap.paramCount) {
+        validcount++;
+      }
+    }
+    return validcount === callbacks.length;
+  }
+};
+
+
+function hasInterface(obj, interfaceObj) {
+  var map = new CallbackMap(interfaceObj);
+  return map.isValid(obj);
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -364,6 +379,7 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
+  hasInterface: hasInterface,
   deepAssign: deepAssign
 };
 
