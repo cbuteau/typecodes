@@ -2,7 +2,7 @@
 describe('has', function() {
 
 
-  it ('is Empty', function() {
+  it ('pass', function() {
       var objParams = {
         data: {
           id: 666
@@ -22,4 +22,23 @@ describe('has', function() {
 
       expect(tc.has(objParams, objPropMap)).toBe(true);
   });
+
+  it ('ffail', function() {
+      var objParams = {
+        data: {
+          id: 666
+        },
+        onComplete: function(data) {
+          //parse and diaply
+        }
+      };
+      var objPropMap = {
+        data: tc.CODES.OBJECT,
+        onComplete: tc.CODES.FUNCTION,
+        onFailure: tc.CODES.FUNCTION,
+      };
+
+      expect(tc.has(objParams, objPropMap)).toBe(false);
+  });
+
 });
