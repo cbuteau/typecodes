@@ -370,6 +370,20 @@ function hasInterface(obj, interfaceObj) {
   return map.isValid(obj);
 }
 
+function hasPropMap(objectToTest, propMap) {
+  var keys = Object.keys(propMap);
+  var mapCount = 0;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var tc = getTypeCode(objectToTest[key]);
+    if (tc === propMap[key]) {
+      mapCount++;
+    }
+  }
+
+  return mapCount === keys.length;
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -379,6 +393,7 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
+  has: hasPropMap,
   hasInterface: hasInterface,
   deepAssign: deepAssign
 };

@@ -94,7 +94,7 @@ describe('Performance tests', function() {
         if (isChrome) {
           expect(results[0].duration).toBeLessThan(1.200);
         } else if (isFirefox) {
-          expect(results[0].duration).toBeLessThan(0.500);
+          expect(results[0].duration).toBeLessThan(1.500);
         }
         done();
       }, 500);
@@ -122,7 +122,7 @@ describe('Performance tests', function() {
         if (isChrome) {
           expect(results[0].duration).toBeLessThan(2.100);
         } else if (isFirefox) {
-          expect(results[0].duration).toBeLessThan(1.100);
+          expect(results[0].duration).toBeLessThan(10.100);
         }
         done();
       }, 500)
