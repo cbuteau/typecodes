@@ -384,6 +384,218 @@ function hasPropMap(objectToTest, propMap) {
   return mapCount === keys.length;
 }
 
+function coerceStringToBool(value) {
+  return value.toLowerCase() === 'true';
+}
+
+var regexInt = /^[-+]?\d+$/;
+
+function coerceStringToNumber(value) {
+  if (regexInt.test(value)) {
+    return parseInt(value);
+  } else {
+    return parseFloat(value);
+  }
+}
+
+function coerceStringToDate(value) {
+  return new Date(Date.parse(value));
+}
+
+function coerceStringToArray(value) {
+  var temp = JSON.parse(value);
+  if (Array.isArray(temp)) {
+    return temp;
+  } else {
+    noCoerce();
+  }
+}
+
+function coerceStringToRegex(value) {
+  return new RegExp(value);
+}
+
+function noCoerce() {
+  throw new Error('No coersion possible');
+}
+
+function coerceToNull(value) {
+  return null;
+}
+
+function coerceToUndefined(value) {
+  var thing;
+  return thing;
+}
+
+function coerceArrayToString(value) {
+  return JSON.stringify(value);
+}
+
+function coerceNumberToDate(value) {
+  return new Date(value);
+}
+
+function coerceNumberToString(value) {
+  return '' + value;
+}
+
+function convertObjectToString(value) {
+  return JSON.stringify(value);
+}
+
+function coerceAnyToBool(value) {
+  if (value) {
+    return true;
+  }
+
+  return false;
+}
+
+var COERCEMAP = {};
+
+
+function buildCoerceMap() {
+  if (COERCEMAP[TYPECODES.STRING]) {
+    return;
+  }
+  var funcMap = COERCEMAP[TYPECODES.STRING] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceStringToBool;
+  funcMap[TYPECODES.NUMBER] = coerceStringToNumber;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = coerceStringToArray;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = coerceStringToDate;
+  funcMap[TYPECODES.REGEX] = coerceStringToRegex;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap = COERCEMAP[TYPECODES.ARRAY] = {};
+  funcMap[TYPECODES.BOOLEAN] = noCoerce;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceArrayToString;
+  funcMap = COERCEMAP[TYPECODES.NUMBER] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = coerceNumberToDate;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceNumberToString;
+  funcMap = COERCEMAP[TYPECODES.FUNCTION] = {};
+  funcMap[TYPECODES.BOOLEAN] = noCoerce;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+
+
+  funcMap = COERCEMAP[TYPECODES.OBJECT] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = convertObjectToString;
+
+
+  funcMap = COERCEMAP[TYPECODES.UNDEFINED] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = convertObjectToString;
+
+  funcMap = COERCEMAP[TYPECODES.NULL] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.DATE] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.ARRAY] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+
+  funcMap = COERCEMAP[TYPECODES.REGEX] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+}
+
+// var TYPECODES = {
+//   BOOLEAN: 0,
+//   NUMBER: 1,
+//   STRING: 2,
+//   FUNCTION: 3,
+//   OBJECT: 4,
+//   UNDEFINED: 5,
+//   NULL: 6,
+//   DATE: 7,
+//   ARRAY: 8,
+//   UNMAPPED: 9,
+//   REGEX: 10
+// };
+
+function coerce(value, typeCode) {
+  var currentTc = getTypeCode(value);
+  if (currentTc === typeCode) {
+    return value;
+  } else {
+      buildCoerceMap();
+      return COERCEMAP[currentTc][typeCode](value);
+  }
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -393,6 +605,7 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
+  coerce: coerce,
   has: hasPropMap,
   hasInterface: hasInterface,
   deepAssign: deepAssign
