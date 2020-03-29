@@ -392,7 +392,8 @@ var regexInt = /^[-+]?\d+$/;
 
 function coerceStringToNumber(value) {
   if (regexInt.test(value)) {
-    return parseInt(value);
+    // if we pass in options this could be another radix.
+    return parseInt(value, 10);
   } else {
     return parseFloat(value);
   }
@@ -452,6 +453,12 @@ function coerceAnyToBool(value) {
   return false;
 }
 
+function coerceAnyToString(value) {
+  return value.toString();
+}
+
+
+
 var COERCEMAP = {};
 
 
@@ -469,6 +476,18 @@ function buildCoerceMap() {
   funcMap[TYPECODES.DATE] = coerceStringToDate;
   funcMap[TYPECODES.REGEX] = coerceStringToRegex;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.BOOLEAN] = {};
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceAnyToString;
+
   funcMap = COERCEMAP[TYPECODES.ARRAY] = {};
   funcMap[TYPECODES.BOOLEAN] = noCoerce;
   funcMap[TYPECODES.NUMBER] = noCoerce;
@@ -480,6 +499,7 @@ function buildCoerceMap() {
   funcMap[TYPECODES.REGEX] = noCoerce;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
   funcMap[TYPECODES.STRING] = coerceArrayToString;
+
   funcMap = COERCEMAP[TYPECODES.NUMBER] = {};
   funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
   funcMap[TYPECODES.FUNCTION] = noCoerce;
@@ -490,6 +510,7 @@ function buildCoerceMap() {
   funcMap[TYPECODES.REGEX] = noCoerce;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
   funcMap[TYPECODES.STRING] = coerceNumberToString;
+
   funcMap = COERCEMAP[TYPECODES.FUNCTION] = {};
   funcMap[TYPECODES.BOOLEAN] = noCoerce;
   funcMap[TYPECODES.NUMBER] = noCoerce;
@@ -500,8 +521,6 @@ function buildCoerceMap() {
   funcMap[TYPECODES.REGEX] = noCoerce;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
   funcMap[TYPECODES.STRING] = noCoerce;
-
-
 
   funcMap = COERCEMAP[TYPECODES.OBJECT] = {};
   funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
@@ -514,7 +533,6 @@ function buildCoerceMap() {
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
   funcMap[TYPECODES.STRING] = convertObjectToString;
 
-
   funcMap = COERCEMAP[TYPECODES.UNDEFINED] = {};
   funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
   funcMap[TYPECODES.NUMBER] = noCoerce;
@@ -524,7 +542,7 @@ function buildCoerceMap() {
   funcMap[TYPECODES.DATE] = noCoerce;
   funcMap[TYPECODES.REGEX] = noCoerce;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
-  funcMap[TYPECODES.STRING] = convertObjectToString;
+  funcMap[TYPECODES.STRING] = noCoerce;
 
   funcMap = COERCEMAP[TYPECODES.NULL] = {};
   funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
@@ -548,18 +566,6 @@ function buildCoerceMap() {
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
   funcMap[TYPECODES.STRING] = noCoerce;
 
-  funcMap = COERCEMAP[TYPECODES.ARRAY] = {};
-  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
-  funcMap[TYPECODES.NUMBER] = noCoerce;
-  funcMap[TYPECODES.ARRAY] = noCoerce;
-  funcMap[TYPECODES.OBJECT] = noCoerce;
-  funcMap[TYPECODES.FUNCTION] = noCoerce;
-  funcMap[TYPECODES.REGEX] = noCoerce;
-  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
-  funcMap[TYPECODES.UNMAPPED] = noCoerce;
-  funcMap[TYPECODES.STRING] = noCoerce;
-
-
   funcMap = COERCEMAP[TYPECODES.REGEX] = {};
   funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
   funcMap[TYPECODES.NUMBER] = noCoerce;
@@ -569,7 +575,7 @@ function buildCoerceMap() {
   funcMap[TYPECODES.REGEX] = noCoerce;
   funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
   funcMap[TYPECODES.UNMAPPED] = noCoerce;
-  funcMap[TYPECODES.STRING] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceAnyToString;
 }
 
 // var TYPECODES = {
