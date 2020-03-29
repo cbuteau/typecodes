@@ -578,27 +578,13 @@ function buildCoerceMap() {
   funcMap[TYPECODES.STRING] = coerceAnyToString;
 }
 
-// var TYPECODES = {
-//   BOOLEAN: 0,
-//   NUMBER: 1,
-//   STRING: 2,
-//   FUNCTION: 3,
-//   OBJECT: 4,
-//   UNDEFINED: 5,
-//   NULL: 6,
-//   DATE: 7,
-//   ARRAY: 8,
-//   UNMAPPED: 9,
-//   REGEX: 10
-// };
-
 function coerce(value, typeCode) {
-  var currentTc = getTypeCode(value);
+  var currentTc = getTypeCode(value)
   if (currentTc === typeCode) {
-    return value;
+    return value
   } else {
       buildCoerceMap();
-      return COERCEMAP[currentTc][typeCode](value);
+      return COERCEMAP[currentTc][typeCode](value)
   }
 }
 
@@ -615,16 +601,16 @@ var exposed = {
   has: hasPropMap,
   hasInterface: hasInterface,
   deepAssign: deepAssign
-};
+}
 
 // trying diffeernt for requirejs detection.
 
 if (typeof define === 'function' && define.amd) {
   define(function() {
-    return exposed;
+    return exposed
   });
 } else if (typeof exports === 'object') {
-  module.exports = exposed;
+  module.exports = exposed
 } else {
-  window.tc = exposed;
+  window.tc = exposed
 }

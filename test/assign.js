@@ -1,3 +1,4 @@
+/* es-lint jasmine */
 
 var defaultProps = {
   PI: Math.PI,

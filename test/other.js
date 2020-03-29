@@ -1,3 +1,4 @@
+/* es-lint jasmine */
 
 describe('Other functions', function() {
 

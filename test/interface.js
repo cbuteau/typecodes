@@ -1,4 +1,4 @@
-
+/* es-lint jasmine */
 
 describe('hasInterface', function() {
 

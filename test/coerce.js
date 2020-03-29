@@ -1,4 +1,4 @@
-
+/* es-lint jasmine */
 
 describe('coerce...', function() {
   describe('bool...', function() {
@@ -36,8 +36,8 @@ describe('coerce...', function() {
     });
   });
 
-  decribe('number...',function() {
-    decribe('ints...', function() {
+  describe('number...',function() {
+    describe('ints...', function() {
       it ('666', function() {
         expect(tc.coerce('666', tc.CODES.NUMBER)).toBe(666);
       });
@@ -50,10 +50,10 @@ describe('coerce...', function() {
     });
   });
 
-  decribe('function...', function() {
+  describe('function...', function() {
     it ('vanilla', function() {
       expect(function() {
-        tc.coerce(function() {}, tc.CODES.STRING));
+        tc.coerce(function() {}, tc.CODES.STRING);
       }).toThrow();
     });
   });

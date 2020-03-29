@@ -1,4 +1,4 @@
-
+/* es-lint jasmine */
 
 describe('Test debug strings...', function() {
   it('object', function() {
