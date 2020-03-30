@@ -1,6 +1,22 @@
 /* es-lint jasmine */
 
 describe('coerce...', function() {
+  describe('nochange...', function() {
+    it ('bool', function() {
+      expect(tc.coerce(true, tc.CODES.BOOLEAN)).toBe(true);
+      expect(tc.coerce(false, tc.CODES.BOOLEAN)).toBe(false);
+    });
+
+    it ('string', function() {
+      var GOLD = 'testing';
+      expect(tc.coerce(GOLD, tc.CODES.STRING)).toBe(GOLD);
+    });
+
+    it ('string', function() {
+      var GOLD = 'testing';
+      expect(tc.coerce(GOLD, tc.CODES.STRING)).toBe(GOLD);
+    });
+  });
   describe('string...', function() {
     describe('bool...', function() {
       it ('one', function() {
@@ -50,6 +66,11 @@ describe('coerce...', function() {
         });
       });
     });
+
+    describe('null and undefined...', function() {
+      expect(tc.coerce('ffff', tc.CODES.NULL)).toBe(null);
+      expect(tc.coerce('ffff', tc.CODES.UNDEFINED)).toBe(undefined);
+    });
   });
 
 
@@ -74,5 +95,15 @@ describe('coerce...', function() {
       expect(tc.coerce(empty, tc.CODES.STRING)).toBe(GOLD);
     });
 
+  });
+
+
+  describe('number...', function() {
+    it ('bool', function() {
+      expect(tc.coerce(3.14, tc.CODES.BOOLEAN)).toBe(true);
+    });
+    it ('bool', function() {
+      expect(tc.coerce(3.14, tc.CODES.STRING)).toBe('3.14');
+    });
   });
 });
