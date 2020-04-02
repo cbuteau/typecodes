@@ -1,6 +1,6 @@
 {
   "name": "typecodes",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Basically the closest type evaluation system for the basic types the JavaScript language supports.",
   "main": "typecodes.js",
   "scripts": {
@@ -11,7 +11,9 @@
     "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
   },
   "keywords": [
-    "type"
+    "type",
+    "utility",
+    "es5"
   ],
   "repository": {
     "type": "git",
