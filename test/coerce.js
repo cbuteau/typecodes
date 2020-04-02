@@ -58,6 +58,11 @@ describe('coerce...', function() {
         it ('666', function() {
           expect(tc.coerce('666', tc.CODES.NUMBER)).toBe(666);
         });
+
+        xit ('e notation', function() {
+          expect(tc.coerce('1e1000', tc.CODES.NUMBER)).toBe(1000);
+        });
+
       });
 
       describe('floats..', function() {
@@ -103,7 +108,20 @@ describe('coerce...', function() {
       expect(tc.coerce(3.14, tc.CODES.BOOLEAN)).toBe(true);
     });
     it ('bool', function() {
+      expect(tc.coerce(0, tc.CODES.BOOLEAN)).toBe(false);
+    });
+
+    it ('bool', function() {
       expect(tc.coerce(3.14, tc.CODES.STRING)).toBe('3.14');
+    });
+
+    it ('undefined', function() {
+      expect(tc.coerce(3.14, tc.CODES.UNDEFINED)).toBe(undefined);
+    });
+
+
+    it ('date', function() {
+      expect(tc.coerce(13, tc.CODES.DATE)).toEqual(new Date(13));
     });
   });
 });

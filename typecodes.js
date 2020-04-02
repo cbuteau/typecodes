@@ -388,6 +388,8 @@ function coerceStringToBool(value) {
   return value.toLowerCase() === 'true';
 }
 
+// figure out e notation for floats and ints.
+//var regexInt = /^-?[\d.]+(?:e-?\d+)?$/;
 var regexInt = /^[-+]?\d+$/;
 
 function coerceStringToNumber(value) {
