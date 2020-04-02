@@ -121,7 +121,7 @@ describe('Performance tests', function() {
 
       setTimeout(function() {
         if (isChrome) {
-          expect(results[0].duration).toBeLessThan(2.100);
+          expect(results[0].duration).toBeLessThan(2.300);
         } else if (isFirefox) {
           expect(results[0].duration).toBeLessThan(10.100);
         }
