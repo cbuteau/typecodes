@@ -1,3 +1,4 @@
+// whole thing strict mode
 'use strict';
 
 //if (typeof define !== 'function') { var define = require('amdefine'); }
@@ -275,59 +276,26 @@ function buildCombinedPropList(objOne, objTwo) {
 
   return result;
 }
-//
-// function buildPropList(obj) {
-//   var keys = Object.keys(obj);
-//   var result = [];
-//   for (var i = 0; i < keys.length; i++ ) {
-//     addUnique(result, keys[i]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildCombinedPropMap(objOne, objTwo) {
-//   var keysOne = Object.keys(objOne);
-//   var keysTwo = Object.keys(objTwo);
-//   var result = {};
-//   for (var i = 0; i <keysOne.length; i++ ) {
-//     var keyone = keysOne[i];
-//     result[keyone] = getTypeCode(objOne[keyone]);
-//   }
-//   for (var j = 0; j < keysTwo.length; j++ ) {
-//     var keytwo = keysTwo[j];
-//     result[keytwo] = getTypeCode(objOne[keytwo]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildPropMap(obj) {
-//   var keys = Object.keys(obj);
-//   var result = {};
-//   for (var i = 0; i < keys.length; i++ ) {
-//     var cur = keys[i];
-//     result[cur] = getTypeCode(obj[cur]);
-//   }
-//
-//   return result;
-// }
-//
-// function buildEvaluation(objOne, objTwo) {
-//   var result = {};
-//
-//   result.isNotOne = isNotThere(objOne);
-//   result.isNotTwo = isNotThere(objTwo);
-//
-//   if (result.isNotOne && !result.isNotTwo) {
-//     result.props = buildPropMap(objTwo);
-//   } else if (!result.isNotOne && result.isNotTwo) {
-//     result.props = buildPropMap(objOne);
-//   } else {
-//     result.props = buildCombinedPropMap(objOne, objTwo);
-//   }
-//
-// }
+
+function mergeArrays(arrayOne, arrayTwo) {
+  var combined = [];
+  var current;
+  for (var i = 0; i < arrayOne.length; i++) {
+    current = arrayOne[i];
+    if (combined.indexOf(current) === -1) {
+      combined.push(current);
+    }
+  }
+  for (var j = 0; j < arrayTwo.length; j++) {
+    var current = arrayTwo[j];
+    if (combined.indexOf(current) === -1) {
+      combined.push(current);
+    }
+  }
+
+  return combined;
+}
+
 
 function deepAssign(objOne, objTwo) {
   if (isNotThere(objOne)) {
@@ -345,9 +313,14 @@ function deepAssign(objOne, objTwo) {
     return objTwo;
   }
 
+
+
   var isOneValues = isAllValueTypes(objOne);
   var isTwoValues = isAllValueTypes(objTwo);
   if (isOneValues && isTwoValues) {
+    if (isTypeCode(objOne, TYPECODES.ARRAY) && isTypeCode(objTwo, TYPECODES.ARRAY)) {
+      return mergeArrays(objOne, objTwo);
+    }
     return Object.assign(objOne, objTwo);
   } else {
     // recurse
@@ -361,6 +334,268 @@ function deepAssign(objOne, objTwo) {
   }
 }
 
+function FunctionMap(prop) {
+  this.paramCount = prop.length;
+}
+
+function CallbackMap(interfaceObj) {
+  this.interfaceObj = interfaceObj;
+  this.map = {};
+  this.build();
+}
+
+CallbackMap.prototype = {
+  build: function() {
+    var keys = Object.keys(this.interfaceObj);
+    for (var i = 0; i < keys.length; i++) {
+      var prop = keys[i];
+      var propVal = this.interfaceObj[prop];
+      if (isTypeCode(propVal, TYPECODES.FUNCTION)) {
+        this.map[prop] = new FunctionMap(propVal);
+      }
+    }
+  },
+  isValid: function(objectToTest) {
+    var callbacks = Object.keys(this.map);
+    var validcount = 0;
+    for (var i = 0; i < callbacks.length; i++) {
+      var cbName = callbacks[i];
+      var propVal = objectToTest[cbName];
+      var funcMap = this.map[cbName];
+      if (isTypeCode(propVal, TYPECODES.FUNCTION) && propVal.length === funcMap.paramCount) {
+        validcount++;
+      }
+    }
+    return validcount === callbacks.length;
+  }
+};
+
+
+function hasInterface(obj, interfaceObj) {
+  var map = new CallbackMap(interfaceObj);
+  return map.isValid(obj);
+}
+
+function hasPropMap(objectToTest, propMap) {
+  var keys = Object.keys(propMap);
+  var mapCount = 0;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var tc = getTypeCode(objectToTest[key]);
+    if (tc === propMap[key]) {
+      mapCount++;
+    }
+  }
+
+  return mapCount === keys.length;
+}
+
+function coerceStringToBool(value) {
+  return value.toLowerCase() === 'true';
+}
+
+// figure out e notation for floats and ints.
+//var regexInt = /^-?[\d.]+(?:e-?\d+)?$/;
+var regexInt = /^[-+]?\d+$/;
+
+function coerceStringToNumber(value) {
+  if (regexInt.test(value)) {
+    // if we pass in options this could be another radix.
+    return parseInt(value, 10);
+  } else {
+    return parseFloat(value);
+  }
+}
+
+function coerceStringToDate(value) {
+  return new Date(Date.parse(value));
+}
+
+function coerceStringToArray(value) {
+  var temp = JSON.parse(value);
+  if (Array.isArray(temp)) {
+    return temp;
+  } else {
+    noCoerce();
+  }
+}
+
+function coerceStringToRegex(value) {
+  return new RegExp(value);
+}
+
+function noCoerce() {
+  throw new Error('No coersion possible');
+}
+
+function coerceToNull(value) {
+  return null;
+}
+
+function coerceToUndefined(value) {
+  var thing;
+  return thing;
+}
+
+function coerceArrayToString(value) {
+  return JSON.stringify(value);
+}
+
+function coerceNumberToDate(value) {
+  return new Date(value);
+}
+
+function coerceNumberToString(value) {
+  return '' + value;
+}
+
+function convertObjectToString(value) {
+  return JSON.stringify(value);
+}
+
+function coerceAnyToBool(value) {
+  if (value) {
+    return true;
+  }
+
+  return false;
+}
+
+function coerceAnyToString(value) {
+  return value.toString();
+}
+
+
+
+var COERCEMAP = {};
+
+
+function buildCoerceMap() {
+  if (COERCEMAP[TYPECODES.STRING]) {
+    return;
+  }
+  var funcMap = COERCEMAP[TYPECODES.STRING] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceStringToBool;
+  funcMap[TYPECODES.NUMBER] = coerceStringToNumber;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = coerceStringToArray;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = coerceStringToDate;
+  funcMap[TYPECODES.REGEX] = coerceStringToRegex;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.BOOLEAN] = {};
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceAnyToString;
+
+  funcMap = COERCEMAP[TYPECODES.ARRAY] = {};
+  funcMap[TYPECODES.BOOLEAN] = noCoerce;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceArrayToString;
+
+  funcMap = COERCEMAP[TYPECODES.NUMBER] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = coerceNumberToDate;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceNumberToString;
+
+  funcMap = COERCEMAP[TYPECODES.FUNCTION] = {};
+  funcMap[TYPECODES.BOOLEAN] = noCoerce;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.OBJECT] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = convertObjectToString;
+
+  funcMap = COERCEMAP[TYPECODES.UNDEFINED] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.NULL] = coerceToNull;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.NULL] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.DATE] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.DATE] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = noCoerce;
+
+  funcMap = COERCEMAP[TYPECODES.REGEX] = {};
+  funcMap[TYPECODES.BOOLEAN] = coerceAnyToBool;
+  funcMap[TYPECODES.NUMBER] = noCoerce;
+  funcMap[TYPECODES.ARRAY] = noCoerce;
+  funcMap[TYPECODES.OBJECT] = noCoerce;
+  funcMap[TYPECODES.FUNCTION] = noCoerce;
+  funcMap[TYPECODES.REGEX] = noCoerce;
+  funcMap[TYPECODES.UNDEFINED] = coerceToUndefined;
+  funcMap[TYPECODES.UNMAPPED] = noCoerce;
+  funcMap[TYPECODES.STRING] = coerceAnyToString;
+}
+
+function coerce(value, typeCode) {
+  var currentTc = getTypeCode(value)
+  if (currentTc === typeCode) {
+    return value
+  } else {
+      buildCoerceMap();
+      return COERCEMAP[currentTc][typeCode](value)
+  }
+}
+
 var exposed = {
   CODES: TYPECODES,
   get: getTypeCode,
@@ -370,18 +605,24 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
+<<<<<<< HEAD
   config: config,
+=======
+  coerce: coerce,
+  has: hasPropMap,
+  hasInterface: hasInterface,
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
   deepAssign: deepAssign
-};
+}
 
 // trying diffeernt for requirejs detection.
 
 if (typeof define === 'function' && define.amd) {
   define(function() {
-    return exposed;
+    return exposed
   });
 } else if (typeof exports === 'object') {
-  module.exports = exposed;
+  module.exports = exposed
 } else {
-  window.tc = exposed;
+  window.tc = exposed
 }

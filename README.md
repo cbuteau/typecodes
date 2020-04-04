@@ -59,6 +59,9 @@ validateFunction(value, paramCount)
 compare(objectOne, objectTWo, options)
 
 isFloat(value)
+
+// merges two objects with Object.assign on the lowest level.
+deepAssign(objectOne, objectTwo)
 ```
 
 

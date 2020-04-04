@@ -1,12 +1,13 @@
 {
   "name": "typecodes",
-  "version": "2.0.0",
+  "version": "2.1.2",
   "description": "Basically the closest type evaluation system for the basic types the JavaScript language supports.",
   "main": "typecodes.js",
   "scripts": {
     "test": ".\\node_modules\\.bin\\karma start",
     "test.ci": ".\\node_modules\\.bin\\karma start --single-run",
     "minify": "node .\\node_modules\\uglify-js\\bin\\uglifyjs -c -o ./typecodes.min.js typecodes.js",
+<<<<<<< HEAD
     "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js",
     "preinstall": "npx npm-force-resolutions"
   },
@@ -14,9 +15,15 @@
     "minimist": "^1.2.5",
     "handlebars": ">=4.5.2",
     "kind-of": "^6.0.3"
+=======
+    "lint": "npx standard",
+    "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
   },
   "keywords": [
-    "type"
+    "type",
+    "utility",
+    "es5"
   ],
   "repository": {
     "type": "git",
@@ -26,25 +33,34 @@
   "license": "MIT",
   "devDependencies": {
     "amdefine": "1.0.0",
+<<<<<<< HEAD
     "handlebars": "^4.7.6",
+=======
+    "handlebars": "^4.7.3",
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
     "istanbul": "^0.4.5",
-    "jasmine": "3.4.0",
-    "jasmine-core": "2.4.1",
+    "jasmine": "3.3.0",
+    "jasmine-core": "3.3.0",
     "karma": "4.1.0",
     "karma-chrome-launcher": "1.0.1",
     "karma-cli": "2.0.0",
     "karma-coveralls": "^2.1.0",
     "karma-firefox-launcher": "1.1.0",
     "karma-jasmine": "1.0.2",
+    "karma-jasmine-html-reporter": "1.4.2",
     "karma-requirejs": "1.0.0",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5",
     "requirejs": "2.2.0",
+<<<<<<< HEAD
     "uglify-js": "^3.8.1"
+=======
+    "standard": "14.3.3",
+    "uglify-js": "^3.6.0"
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
   },
   "dependencies": {
     "karma-coverage": "1.1.2",
-    "karma-jasmine-html-reporter": "1.4.2",
     "lodash": "4.17.14"
   }
 }

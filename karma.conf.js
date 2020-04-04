@@ -42,7 +42,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['progress', 'kjhtml', 'coverage', 'coveralls'],
 
 
     // web server port
@@ -66,18 +66,29 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome', 'FirefoxHeadless'],
 
+<<<<<<< HEAD
     customLaunchers: {
       Chrome_without_security: {
         base: 'Chrome',
         flags: ['--disable-web-security', '--disable-site-isolation-trials']
       },
       'FirefoxHeadless': {
+=======
+    //browsers: ['Chrome', 'Firefox'],
+
+    customLaunchers: {
+      FirefoxHeadless: {
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
         base: 'Firefox',
         flags: [
           '-headless',
         ],
       }
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,

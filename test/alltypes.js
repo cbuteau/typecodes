@@ -1,7 +1,4 @@
-// if (typeof require === 'function')
-// {
-//   var tc = require('../typecodes');
-// }
+/* es-lint jasmine */
 
 describe('Test each type...', function() {
   it('object', function() {

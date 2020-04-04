@@ -1,4 +1,4 @@
-
+/* es-lint jasmine */
 
 
 describe('Test is each type...', function() {

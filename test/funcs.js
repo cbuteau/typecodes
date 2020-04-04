@@ -1,9 +1,4 @@
-
-// require exists in NodeJs
-// if (typeof require === 'function')
-// {
-//   var tc = require('../typecodes');
-// }
+/* es-lint jasmine */
 
 describe('Tests variations on function parameters', function() {
   it ('parameters 1', function() {
