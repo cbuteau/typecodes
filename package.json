@@ -7,18 +7,14 @@
     "test": ".\\node_modules\\.bin\\karma start",
     "test.ci": ".\\node_modules\\.bin\\karma start --single-run",
     "minify": "node .\\node_modules\\uglify-js\\bin\\uglifyjs -c -o ./typecodes.min.js typecodes.js",
-<<<<<<< HEAD
     "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js",
+    "lint": "npx standard",
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {
     "minimist": "^1.2.5",
     "handlebars": ">=4.5.2",
     "kind-of": "^6.0.3"
-=======
-    "lint": "npx standard",
-    "debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js"
->>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
   },
   "keywords": [
     "type",
@@ -33,11 +29,7 @@
   "license": "MIT",
   "devDependencies": {
     "amdefine": "1.0.0",
-<<<<<<< HEAD
     "handlebars": "^4.7.6",
-=======
-    "handlebars": "^4.7.3",
->>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
     "istanbul": "^0.4.5",
     "jasmine": "3.3.0",
     "jasmine-core": "3.3.0",
@@ -52,12 +44,8 @@
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5",
     "requirejs": "2.2.0",
-<<<<<<< HEAD
-    "uglify-js": "^3.8.1"
-=======
-    "standard": "14.3.3",
-    "uglify-js": "^3.6.0"
->>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
+    "uglify-js": "^3.8.1",
+    "standard": "14.3.3"
   },
   "dependencies": {
     "karma-coverage": "1.1.2",
