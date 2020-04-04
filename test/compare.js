@@ -302,7 +302,7 @@ describe('Compare tests', function() {
     expect(tc.compare(arrayOne, arrayTwo)).toBe(true);
     var meas = track.endnmeas('arrayOfObjs');
     if (track.BrowserFlags.isChrome) {
-      expect(meas.duration).toBeLessThan(1.05);
+      expect(meas.duration).toBeLessThan(1.80);
     } else if (track.BrowserFlags.isFirefox) {
       expect(meas.duration).toBeLessThan(3.01);
     }
