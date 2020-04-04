@@ -17,6 +17,18 @@ describe('Compare tests', function() {
 
   });
 
+  it ('MOdify float compare', function() {
+    tc.config({
+      epsilon: 0.000001
+    });
+
+    expect(tc.compare(2.000001, 2.000002)).toBe(true);
+
+
+  });
+
+
+
   it ('Undefined', function() {
     var testUndefined;
     var testNull = null;
@@ -138,6 +150,7 @@ describe('Compare tests', function() {
 
 
   it ('Array of objects', function() {
+    track.start('arrayOfObjs');
     var arrayOne = [
       {
         one: true,
@@ -285,7 +298,12 @@ describe('Compare tests', function() {
     ];
 
     expect(tc.compare(arrayOne, arrayTwo)).toBe(true);
-
+    var meas = track.endnmeas('arrayOfObjs');
+    if (track.BrowserFlags.isChrome) {
+      expect(meas.duration).toBeLessThan(1.05);
+    } else if (track.BrowserFlags.isFirefox) {
+      expect(meas.duration).toBeLessThan(3.01);      
+    }
   });
 
   it ('Array of objects - failure', function() {

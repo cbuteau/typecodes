@@ -225,6 +225,12 @@ function compare(valueOne, valueTwo, options) {
   }
 }
 
+function config(options) {
+  if (options.epsilon && options.epsilon !== DEFAULT_EPSILON) {
+    DEFAULT_EPSILON = options.epsilon;
+  }
+}
+
 function exposedIsFloat(value) {
   return getTypeCode(value) === TYPECODES.NUMBER && isFloat(value);
 }
@@ -364,6 +370,7 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
+  config: config,
   deepAssign: deepAssign
 };
 

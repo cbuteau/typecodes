@@ -4,6 +4,11 @@
 module.exports = function(config) {
   config.set({
 
+    // trying to make ff shutodnw properly.
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 1,
+    processKillTimeout: 100000,
+
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -16,6 +21,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'typecodes.js',
+      'track.js',
       'test/**/*.js',
     ],
 
@@ -58,9 +64,20 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['Chrome', 'FirefoxHeadless'],
 
-
+    customLaunchers: {
+      Chrome_without_security: {
+        base: 'Chrome',
+        flags: ['--disable-web-security', '--disable-site-isolation-trials']
+      },
+      'FirefoxHeadless': {
+        base: 'Firefox',
+        flags: [
+          '-headless',
+        ],
+      }
+    },
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
