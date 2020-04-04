@@ -12,7 +12,9 @@ describe('Compare tests', function() {
   it ('Number', function() {
     expect(tc.compare(2, 1)).toBe(false);
     expect(tc.compare(2, 2)).toBe(true);
-
+    tc.config({
+      epsilon: 0.001
+    });
     expect(tc.compare(2.001, 2.002)).toBe(true);
 
   });
@@ -302,7 +304,7 @@ describe('Compare tests', function() {
     if (track.BrowserFlags.isChrome) {
       expect(meas.duration).toBeLessThan(1.05);
     } else if (track.BrowserFlags.isFirefox) {
-      expect(meas.duration).toBeLessThan(3.01);      
+      expect(meas.duration).toBeLessThan(3.01);
     }
   });
 
