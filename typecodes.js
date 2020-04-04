@@ -605,13 +605,10 @@ var exposed = {
   str: debugStringForTypeCode,
   isFloat: exposedIsFloat,
   compare: compare,
-<<<<<<< HEAD
   config: config,
-=======
   coerce: coerce,
   has: hasPropMap,
   hasInterface: hasInterface,
->>>>>>> f09a08d0a79a08dea25988a46a9126e1e600db5e
   deepAssign: deepAssign
 }
 

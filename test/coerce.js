@@ -72,10 +72,11 @@ describe('coerce...', function() {
       });
     });
 
-    describe('null and undefined...', function() {
+    it ('null and undefined...', function() {
       expect(tc.coerce('ffff', tc.CODES.NULL)).toBe(null);
       expect(tc.coerce('ffff', tc.CODES.UNDEFINED)).toBe(undefined);
     });
+
   });
 
 
