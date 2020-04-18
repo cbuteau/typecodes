@@ -40,12 +40,13 @@
     "karma-firefox-launcher": "1.1.0",
     "karma-jasmine": "1.0.2",
     "karma-jasmine-html-reporter": "1.4.2",
+    "karma-remap-istanbul": "0.6.0",
     "karma-requirejs": "1.0.0",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5",
     "requirejs": "2.2.0",
-    "uglify-js": "^3.8.1",
-    "standard": "14.3.3"
+    "standard": "14.3.3",
+    "uglify-js": "^3.8.1"
   },
   "dependencies": {
     "karma-coverage": "1.1.2",

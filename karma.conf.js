@@ -17,12 +17,12 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
     // list of files / patterns to load in the browser
     files: [
       'typecodes.js',
       'track.js',
-      'test/**/*.js',
+      'utils/**/*.js',
+      'test/**/*.js'
     ],
 
 
@@ -37,10 +37,14 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:  {
-      '*.js': ['coverage'],
-      '!track.js': ['coverage']
+      '*.js': ['coverage']
     },
 
+    remapIstanbulReporter: {
+      remapOptions: {
+        exclude: 'track.js',
+      }
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
