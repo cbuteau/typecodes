@@ -16,8 +16,6 @@ Get tests running in 4 browsers...then travis it then publish it...
 
 [![Coverage Status](https://coveralls.io/repos/github/cbuteau/typecodes/badge.svg?branch=master)](https://coveralls.io/github/cbuteau/typecodes?branch=master)
 
-[![Coverage Status](https://coveralls.io/repos/github/cbuteau/typecodes/badge.svg)](https://coveralls.io/github/cbuteau/typecodes)
-
 ### Circle CI Build
 
 [![CircleCI](https://circleci.com/gh/cbuteau/typecodes.svg?style=svg)](https://circleci.com/gh/cbuteau/typecodes)
